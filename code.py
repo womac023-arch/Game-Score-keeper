@@ -1,32 +1,29 @@
 
 class Game:
+    """ 
+    Custom data type to manage game and scores.
     """
-    A custom data type (class) to manage game state and scores.
-    Variables within the class (self.players, self.game_title) have a lifetime
-    tied to the Game object instance.
-    """
-    def __init__(self, title="Generic Game"):
-        # self.players is a list of dictionaries, demonstrating fundamental data types
-        # Each dictionary stores a player's 'name' (string) and 'score' (integer).
+  
+    def __init__(self, title="Enter Game Name"):
+        # Each dictionary stores a player's name and score.
         self.players = []
         self.game_title = title
 
     def add_player(self, name):
-        """Adds a new player to the game with an initial score of 0."""
+        """Adds player to game with score of 0."""
         player_data = {'name': name, 'score': 0}
         self.players.append(player_data)
         print(f"[SYSTEM] Added player: {name}\n")
 
     def update_score(self, player_name, points):
-        """Updates the score for a specific player."""
+        """Updates the player score."""
         for player in self.players:
-            # Player data (name, score) is local to the function's loop scope
-            # but modifies the class-level self.players list.
+            # Player data (name, score) is accessed
+            # Modifies the self.players list
             if player['name'] == player_name:
                 player['score'] += points # Use += shortcut
-                print(f"[SYSTEM] {player_name}'s score updated by {points} points.\n")
+                print(f"[SYSTEM] {player_name} = {points}\n")
                 return
-        print(f"[SYSTEM] Error: Player '{player_name}' not found.\n")
 
     def display_scores(self):
         """Displays the current scores for all players."""
@@ -35,22 +32,21 @@ class Game:
         sorted_players = sorted(self.players, key=lambda p: p['score'], reverse=True)
         for player in sorted_players:
             print(f"* {player['name']}: {player['score']} points")
-        print("--------------------------------------\n")
 
-# --- Front End Display and Program Flow (Text-based Console) ---
+# Front End Display and Program Flow
 
 def main_menu(game_instance):
     """
-    Handles user interaction through a text-based console interface.
-    Local variables (e.g., choice, name) have a lifetime within this function's execution.
+    Handles user interaction.
+    Local variables.
     """
     while True:
-        print("Welcome to the Score Keeper System Main Menu:")
-        print("1. Add a new player")
-        print("2. Update a player's score")
+        print("Score Keeper Main Menu:")
+        print("1. Add new player")
+        print("2. Update player scores")
         print("3. View current scores")
-        print("4. Exit program")
-        choice = input("Enter your choice (1-4): ")
+        print("4. Exit")
+        choice = input("Select (1-4): ")
 
         if choice == '1':
             name = input("Enter player name: ")
@@ -58,21 +54,20 @@ def main_menu(game_instance):
         elif choice == '2':
             name = input("Enter player name to update score: ")
             try:
-                points = int(input("Enter points to add/subtract: "))
+                points = int(input("Adjust points: "))
                 game_instance.update_score(name, points)
             except ValueError:
                 print("[SYSTEM] Invalid input. Please enter a number.\n")
         elif choice == '3':
             game_instance.display_scores()
         elif choice == '4':
-            print("Exiting game score system. Goodbye!")
+            print("Exiting game.")
             sys.exit() # Exits the entire program
         else:
             print("[SYSTEM] Invalid choice. Please enter a number from 1 to 4.\n")
 
 # Initialize the system
 if __name__ == "__main__":
-    # The 'my_game' object is a global variable with a lifetime for the program duration.
-    my_game = Game("Ultimate Tic-Tac-Toe")
+    my_game = Game("Moose")
     # Start the front end menu loop
     main_menu(my_game)
