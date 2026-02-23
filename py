@@ -1,3 +1,4 @@
+
 class Game:
     """
     A custom data type (class) to manage game state and scores.
